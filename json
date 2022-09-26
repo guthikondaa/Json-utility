@@ -1,0 +1,42 @@
+
+import pandas as pd
+import numpy as np
+import os
+import json
+# pass the excel path from where we extract the data
+file_path = r"D:\Metadata ROME Vs D365.xlsx"
+# reading the Excel Path by using pandas
+
+Data = pd.read_excel(file_path)
+size = Data.shape[0]
+list_1 = Data["Table Name"].unique()
+num = 1
+for each in list_1:
+ dict_new ={}
+ dict_new["file_name"] = each
+
+for each in list_1:
+	dict_new = {}
+	dict_new["file_name"] = each
+			
+	for eachone in Data["Table Name"]:
+		if each == eachone:
+			ref_list= []
+			x = Data[Data["Table Name"] == each].reset_index()
+			for row_no in range(0,x.shape[0]):
+				dat = (x["Column Names"][row_no],x["Type"][row_no])
+				ref_list.append(dat)
+		else : pass
+	dict_new["schema"] = str(ref_list)
+	# name of the file 
+	file_save = 'rome_'+each+'_schema.json'
+	# path where we extract the json file to local
+	pp = r'C:\Json_Files'+'\\'+ file_save
+	data = dict_new
+	# 
+	a_file = open(pp, "w")
+	a_file = json.dump(data, a_file,indent = 1)
+#	print(dict_new,'\n',num)
+	num+=1
+    
+ 
